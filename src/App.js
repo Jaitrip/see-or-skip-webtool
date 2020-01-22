@@ -1,13 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import HomePage from './pages/HomePage'
+import FindSentimentPage from './pages/FindSentimentPage'
+import ComparePage from './pages/ComparePage'
+import {
+  BrowserRouter,
+  Route,
+  Switch
+} from "react-router-dom"
 
-function App() {
-  return (
-    <div>
-      <h1>Lets get started</h1>
-    </div>
-  );
+class App extends React.Component {
+   constructor() {
+     super()
+     this.state = {}
+   }
+
+   render() {
+     return (
+       <div>
+         <h1>See or Skip?</h1>
+         <Route exact path="/" component={HomePage} />
+         <Route exact path="/FindSentiment" component={FindSentimentPage} />
+         <Route exact path="/ComparePage" component={ComparePage} />
+       </div>
+     )
+   }
 }
 
 export default App;

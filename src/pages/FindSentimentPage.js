@@ -9,7 +9,9 @@ class FindSentimentPage extends React.Component {
    render() {
      return (
        <div>
-         <h1>Find Movie Sentiment Page</h1>
+         <h1>Looking forward to a new film or show?</h1>
+         <h2>See what other people are saying!</h2>
+         <input type="text" name="name" />
        </div>
      )
    }

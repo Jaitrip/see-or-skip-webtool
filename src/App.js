@@ -2,6 +2,8 @@ import React from 'react';
 import HomePage from './pages/HomePage'
 import FindSentimentPage from './pages/FindSentimentPage'
 import ComparePage from './pages/ComparePage'
+import NavigationBar from './NavigationBar'
+import './index.css';
 import {
   BrowserRouter,
   Route,
@@ -16,14 +18,19 @@ class App extends React.Component {
 
    render() {
      return (
-       <div>
-         <h1>See or Skip?</h1>
-         <Route exact path="/" component={HomePage} />
-         <Route exact path="/FindSentiment" component={FindSentimentPage} />
-         <Route exact path="/ComparePage" component={ComparePage} />
-       </div>
+       <BrowserRouter>
+        <div>
+          <NavigationBar />
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/FindSentiment" component={FindSentimentPage} />
+            <Route exact path="/ComparePage" component={ComparePage} />
+          </Switch>      
+        </div>
+       </BrowserRouter>
      )
    }
-}
+} 
+
 
 export default App;

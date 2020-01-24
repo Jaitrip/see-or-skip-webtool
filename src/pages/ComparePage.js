@@ -9,7 +9,8 @@ class ComparePage extends React.Component {
    render() {
      return (
        <div>
-         <h1>Compare Page</h1>
+         <h1>Its a battle betweem two movies!</h1>
+         <h2>Which one will come out on top?</h2>
        </div>
      )
    }

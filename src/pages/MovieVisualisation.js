@@ -5,8 +5,6 @@ class MovieVisualisation extends React.Component {
    constructor(props) {
      super(props)
      this.state = {
-      error : null,
-      apiResultsObtained: false,
       movieName : this.props.movieName,
       movieOverview : '',
       movieReleaseDate : '',
@@ -23,8 +21,6 @@ class MovieVisualisation extends React.Component {
          include_adult : 'false' 
        }
      }).then(apiResponse => this.setState({
-       error : false,
-       apiResultsObtained : true,
        movieName : apiResponse.data.results[0].title,
        movieOverview : apiResponse.data.results[0].overview,
        movieReleaseDate : apiResponse.data.results[0].release_date
@@ -34,8 +30,11 @@ class MovieVisualisation extends React.Component {
      })
     }
 
+    componentDidMount() {
+      this.getMovieInformation(this.state.movieName)
+    }
+
    render() {
-     this.getMovieInformation(this.state.movieName)
      return (
        <div>
         <h1>This is what people think about:</h1>

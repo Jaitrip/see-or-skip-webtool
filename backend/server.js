@@ -19,6 +19,25 @@ connection.once('open', () => {
     console.log("connected");
 })
 
+app.use((request, result, next) => {
+    result.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
+app.post('/getTwitterMovieSentiment', (req, res) => {
+    const movie_name = req.body.movie_name
+    request(
+      { url: 'http://127.0.0.1:5000/see-or-skip/get_sentiment_classification' },
+      (error, response, body) => {
+        if (error || response.statusCode !== 200) {
+          return res.status(500).json({ type: 'error', message: err.message });
+        }
+  
+        res.json(JSON.parse(body));
+      }
+    )
+  });
+
 //Set up routes
 const movieSentimentRouter = require('./endpoint_routes/MovieSentimentRoute');
 app.use('/movieSentiment', movieSentimentRouter);

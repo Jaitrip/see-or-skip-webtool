@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieVisualisation from './MovieVisualisation.js'
+import MovieDetails from '../components/MovieDetails'
 
 class FindSentimentPage extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class FindSentimentPage extends React.Component {
   render() {
     if (this.state.isSubmitted === true) {
       return (
-        <MovieVisualisation movieName={this.state.value} />
+        <MovieDetails movieName={this.state.value} />
       )
     }
 

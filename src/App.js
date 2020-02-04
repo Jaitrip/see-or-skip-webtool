@@ -2,7 +2,7 @@ import React from 'react';
 import HomePage from './pages/HomePage'
 import FindSentimentPage from './pages/FindSentimentPage'
 import ComparePage from './pages/ComparePage'
-import NavigationBar from './NavigationBar'
+import NavigationBar from './components/NavigationBar'
 import './index.css';
 import {
   BrowserRouter,

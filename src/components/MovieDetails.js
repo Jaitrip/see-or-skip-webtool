@@ -1,0 +1,144 @@
+import React from 'react';
+import axios from 'axios';
+
+class MovieVisualisation extends React.Component {
+   constructor(props) {
+     super(props)
+     this.state = {
+      movie_found: false,
+      movie_id: '',
+      movie_name : this.props.movieName,
+      movie_overview : '',
+      movie_release_date : '',
+      positive_comments: '',
+      negative_comments: '',
+      neutral_comments: '',
+      see_or_skip: '',
+      date_analysed: ''
+     }
+   }
+
+    getMovieInformation(movieName) {
+      axios.get("https://api.themoviedb.org/3/search/movie", {
+       params: {
+         api_key : '146fa0756d99220f8811aceb8a865301',
+         language : 'en-US',
+         query : movieName,
+         page : '1',
+         include_adult : 'false' 
+       }
+     }).then(apiResponse => {
+       this.setState({
+        movie_id : apiResponse.data.results[0].id,
+        movie_name : apiResponse.data.results[0].title,
+        movie_overview : apiResponse.data.results[0].overview,
+        movie_release_date : apiResponse.data.results[0].release_date
+       })
+       this.checkIfMovieAnalysed(this.state.movie_id)
+
+      })
+     .catch(error => {
+       console.log(error)
+     })
+    }
+
+    checkIfMovieAnalysed(movie_id) {
+      axios.get("http://localhost:5000/movieSentiment/findMovieSentiment/" + movie_id)
+      .then(apiResponse => {
+        if (apiResponse.data !== null) {
+          this.setState({
+            movie_found : true,
+            positive_comments: apiResponse.data.positive_comments,
+            negative_comments: apiResponse.data.negative_comments,
+            neutral_comments: apiResponse.data.neutral_comments,
+            see_or_skip: apiResponse.data.see_or_skip,
+            date_analysed: apiResponse.data.date_analysed
+          })
+        } else {
+          this.findMovieSentiment(this.state.movieName)
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+
+    findMovieSentiment() {
+      const api_url = "http://127.0.0.1:5000/see-or-skip/get_sentiment_classification"
+      const data = JSON.stringify({
+        movie_name : this.state.movie_name
+      })
+      axios.post(api_url, data ,{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })  
+      .then(apiResponse => { 
+        if (parseInt(apiResponse.data.positive_comments) > parseInt(apiResponse.negative_comments)) {
+          this.setState({
+            positive_comments: apiResponse.data.positive_comments,
+            negative_comments: apiResponse.data.negative_comments,
+            neutral_comments : apiResponse.data.neutral_comments,
+            see_or_skip : "See!",
+            date_analysed : new Date()
+          })
+        } else {
+          this.setState({
+            positive_comments: apiResponse.data.positive_comments,
+            negative_comments: apiResponse.data.negative_comments,
+            neutral_comments : apiResponse.data.neutral_comments,
+            see_or_skip : "Skip!",
+            date_analysed : new Date()
+          })
+        }
+        this.addMovieSentimentToDatabase()
+      })
+      .catch(error => {
+        console.log(error.response)
+      })
+    }
+
+    addMovieSentimentToDatabase() {
+      const api_url = "http://localhost:5000/movieSentiment/saveMovieSentiment"
+      const data = JSON.stringify({
+        movie_id : this.state.movie_id,
+        movie_name : this.state.movie_name,
+        release_date : this.state.movie_release_date,
+        positive_comments : this.state.positive_comments,
+        negative_comments : this.state.negative_comments,
+        neutral_comments : this.state.negative_comments,
+        see_or_skip : this.state.see_or_skip,
+        date_analysed : this.state.date_analysed
+      })
+      axios.post(api_url, data ,{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })  
+      .then(apiResponse => console.log(apiResponse))
+      .catch(error => {
+        console.log(error.response)
+      })
+    }
+
+    componentDidMount() {
+      this.getMovieInformation(this.state.movie_name)
+    }
+
+   render() {
+     return (
+       <div>
+        <h1>This is what people think about:</h1>
+        <h2>{this.state.movie_name}</h2>
+        <h3>{this.state.movie_overview}</h3>
+        <h3>Release Date: {this.state.movie_release_date}</h3>
+        <h3>Positive Comments: {this.state.positive_comments}</h3>
+        <h3>Negative Comments: {this.state.negative_comments}</h3>
+        <h3>Neutral Comments: {this.state.neutral_comments}</h3>
+        <h3>{this.state.see_or_skip}</h3>
+       </div>
+     )
+   }
+}
+
+export default MovieVisualisation;

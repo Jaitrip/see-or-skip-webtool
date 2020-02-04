@@ -1,21 +1,21 @@
 const movieSentimentRouter = require('express').Router();
 let MovieSentiment = require('../schemas/movie-sentiment-schema');
 
-movieSentimentRouter.route('/findMovieSentiments').get((request, result) => {
+movieSentimentRouter.route('/findMovieSentiment').get((request, result) => {
     MovieSentiment.find().then(movieSentiments => result.json(movieSentiments)).catch(error => result.status(400).json('Error encountered:' + error))
 })
 
-movieSentimentRouter.route('/findMovieSentiments/:movie_id').get((request, result) => {
+movieSentimentRouter.route('/findMovieSentiment/:movie_id').get((request, result) => {
     const request_movie_id = request.params.movie_id
     MovieSentiment.findOne({movie_id : request_movie_id}).then(movieSentiment => result.json(movieSentiment)).catch(error => result.status(400).json('Error encountered:' + error))
 })
 
-movieSentimentRouter.route('/findMovieSentiments/:movie_id').delete((request, result) => {
+movieSentimentRouter.route('/findMovieSentiment/:movie_id').delete((request, result) => {
     const delete_movie_id = request.params.movie_id
     MovieSentiment.findOneAndDelete(delete_movie_id).then(() => result.json("movie sentiment deleted")).catch(error => result.status(400).json('Error encountered:' + error))
 })
 
-movieSentimentRouter.route('/saveMovieSentiments').post((request, result) => {
+movieSentimentRouter.route('/saveMovieSentiment').post((request, result) => {
     const movie_id = request.body.movie_id
     const movie_name = request.body.movie_name
     const release_date = request.body.release_date

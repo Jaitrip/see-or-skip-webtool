@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import MovieVisualisation from './MovieVisualisation'
+import MoviePoster from './MoviePoster';
 
-class MovieVisualisation extends React.Component {
+class MovieDetails extends React.Component {
    constructor(props) {
      super(props)
      this.state = {
@@ -10,6 +12,7 @@ class MovieVisualisation extends React.Component {
       movie_name : this.props.movieName,
       movie_overview : '',
       movie_release_date : '',
+      poster_path : '',
       positive_comments: '',
       negative_comments: '',
       neutral_comments: '',
@@ -32,7 +35,8 @@ class MovieVisualisation extends React.Component {
         movie_id : apiResponse.data.results[0].id,
         movie_name : apiResponse.data.results[0].title,
         movie_overview : apiResponse.data.results[0].overview,
-        movie_release_date : apiResponse.data.results[0].release_date
+        movie_release_date : apiResponse.data.results[0].release_date,
+        poster_path : apiResponse.data.results[0].poster_path
        })
        this.checkIfMovieAnalysed(this.state.movie_id)
 
@@ -130,15 +134,21 @@ class MovieVisualisation extends React.Component {
        <div>
         <h1>This is what people think about:</h1>
         <h2>{this.state.movie_name}</h2>
+        <MoviePoster 
+          image_size={"w185"}
+          poster_path={this.state.poster_path}
+        />
         <h3>{this.state.movie_overview}</h3>
-        <h3>Release Date: {this.state.movie_release_date}</h3>
-        <h3>Positive Comments: {this.state.positive_comments}</h3>
-        <h3>Negative Comments: {this.state.negative_comments}</h3>
-        <h3>Neutral Comments: {this.state.neutral_comments}</h3>
-        <h3>{this.state.see_or_skip}</h3>
+        <MovieVisualisation
+          see_or_skip={this.state.see_or_skip}
+          date_analysed={this.state.date_analysed}
+          positive_comments={this.state.positive_comments}
+          negative_comments={this.state.negative_comments}
+          neutral_comments={this.state.neutral_comments}
+        />
        </div>
      )
    }
 }
 
-export default MovieVisualisation;
+export default MovieDetails;

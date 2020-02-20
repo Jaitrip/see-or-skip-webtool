@@ -19,7 +19,6 @@ class CompareMovieSelector extends React.Component {
             this.setState({
                 all_movies : apiResponse.data
             })
-            console.log(this.state.all_movies)
         })
         .catch(error => {
             console.log(error)

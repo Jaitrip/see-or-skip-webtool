@@ -78,7 +78,7 @@ class MovieDetails extends React.Component {
         }
       })  
       .then(apiResponse => { 
-        if (parseInt(apiResponse.data.positive_comments) > parseInt(apiResponse.negative_comments)) {
+        if ((Number(apiResponse.data.positive_comments)) > (Number(apiResponse.data.negative_comments))) {
           this.setState({
             positive_comments: apiResponse.data.positive_comments,
             negative_comments: apiResponse.data.negative_comments,
@@ -86,6 +86,7 @@ class MovieDetails extends React.Component {
             see_or_skip : "See!",
             date_analysed : new Date()
           })
+          console.log("see")
         } else {
           this.setState({
             positive_comments: apiResponse.data.positive_comments,
@@ -110,7 +111,7 @@ class MovieDetails extends React.Component {
         release_date : this.state.movie_release_date,
         positive_comments : this.state.positive_comments,
         negative_comments : this.state.negative_comments,
-        neutral_comments : this.state.negative_comments,
+        neutral_comments : this.state.neutral_comments,
         see_or_skip : this.state.see_or_skip,
         date_analysed : this.state.date_analysed
       })

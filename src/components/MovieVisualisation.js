@@ -42,12 +42,9 @@ class MovieVisualisation extends React.Component {
                         options={{ maintainAspectRatio: false }}
                     />
                 </div>
-                <div>
-                    <h3>You should probably: {this.state.see_or_skip}</h3>
-                    <h3>As of: {this.state.date_analysed}</h3>
-                </div>
+                <h3>{this.state.see_or_skip}</h3>
             </div>
-        )
+        )   
     }
 }
 

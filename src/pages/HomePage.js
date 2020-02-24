@@ -1,16 +1,17 @@
 import React from 'react';
-
+import HomePageMovies from "../components/HomePageMovies"
 
 class HomePage extends React.Component {
    constructor() {
      super()
-     this.state = {}
+     this.state = {
+     }
    }
 
    render() {
      return (
        <div>
-         <h1>In Theatres Soon!</h1>
+         <HomePageMovies />
        </div>
      )
    }

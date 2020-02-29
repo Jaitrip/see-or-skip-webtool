@@ -5,7 +5,6 @@ class MovieVisualisation extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            see_or_skip: this.props.see_or_skip,
             date_analysed: this.props.date_analysed,
             labels : ["Positive", "Negative", "Neutral"],
             datasets : [{
@@ -18,7 +17,6 @@ class MovieVisualisation extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
             this.setState({
-                see_or_skip : this.props.see_or_skip,
                 date_analysed : this.props.date_analysed,
                 datasets : [{
                     data : [Number(this.props.positive_comments), Number(this.props.negative_comments), Number(this.props.neutral_comments)],
@@ -42,7 +40,6 @@ class MovieVisualisation extends React.Component {
                         options={{ maintainAspectRatio: false }}
                     />
                 </div>
-                <h3>{this.state.see_or_skip}</h3>
             </div>
         )   
     }

@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import MovieVisualisation from './MovieVisualisation'
-import MoviePoster from './MoviePoster';
+import MoviePoster from '../MoviePoster';
+import "../../styles/FindSentimentStyles.css"
 
 class MovieDetails extends React.Component {
    constructor(props) {
@@ -132,21 +133,33 @@ class MovieDetails extends React.Component {
 
    render() {
      return (
-       <div>
-        <h1>This is what people think about:</h1>
-        <h2>{this.state.movie_name}</h2>
-        <MoviePoster 
-          image_size={"w185"}
-          poster_path={this.state.poster_path}
-        />
-        <h3>{this.state.movie_overview}</h3>
-        <MovieVisualisation
-          see_or_skip={this.state.see_or_skip}
-          date_analysed={this.state.date_analysed}
-          positive_comments={this.state.positive_comments}
-          negative_comments={this.state.negative_comments}
-          neutral_comments={this.state.neutral_comments}
-        />
+        <div>
+          <h1>This is what people think about:</h1>
+          <div className="findSentimentResults">
+            <div className="findSentimentMovieDetails">
+              <div className="movieArea">
+                <MoviePoster 
+                  image_size={"w185"}
+                  poster_path={this.state.poster_path}
+                />
+                <div className="movieInformation">
+                  <h3>{this.state.movie_name}</h3>
+                  <p>{this.state.movie_overview}</p>
+                  <p>Release Date: {this.state.movie_release_date}</p>
+                  <p>You should probably: {this.state.see_or_skip}</p>
+                </div>
+              </div>
+            </div>
+            <div className="visualisationArea">
+              <h3>Twitter Sentiment Breakdown</h3>
+              <MovieVisualisation
+                date_analysed={this.state.date_analysed}
+                positive_comments={this.state.positive_comments}
+                negative_comments={this.state.negative_comments}
+                neutral_comments={this.state.neutral_comments}
+              />
+            </div>
+          </div>
        </div>
      )
    }

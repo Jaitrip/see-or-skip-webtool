@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import './NavigationBar.css'
+import '../styles/NavigationBar.css'
 
 const navStyle = {
   color: 'white',
@@ -12,7 +12,7 @@ class NavigationBar extends React.Component {
      super()
      this.state = {}
   }
-
+  
   render() {
     return (
        <nav>

@@ -1,0 +1,46 @@
+img {
+    border : 2px solid rgba(255, 255, 255, .5);
+    border-radius: 4px;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    line-height: 100%;
+    max-width: 600px;
+}
+
+.movieInformationArea {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.movieArea {
+    margin-left: 100px;
+    margin-right: 20px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.movieInformation {
+    margin-left: 100px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    align-content: flex-start;
+}
+
+.visualisationArea {
+    margin-top: 150px;
+    margin-bottom: 150px;
+}

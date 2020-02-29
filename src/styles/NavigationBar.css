@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 nav {
-    font-family: 'Lobster', cursive;
-    font-size: 35px;
+    font-family: 'Pacifico' ;
+    font-size: 25px;
     display: flex;
     line-height: 100%;
     justify-content: space-around;
@@ -17,7 +17,7 @@ nav {
   
 .nav-Links {
     font-family: 'Roboto', sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     width: 50%;
     line-height: 100%;
     display: flex;

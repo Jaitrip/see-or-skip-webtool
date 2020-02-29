@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios'
-import './CompareMovieSelector.css';
 import Autosuggest from 'react-autosuggest'
 
 class CompareMovieSelector extends React.Component {
@@ -40,7 +39,7 @@ class CompareMovieSelector extends React.Component {
     
     render() {
         return (
-            <div className="input-row">
+            <div>
                 <label htmlFor="movie_suggestion">Choose a movie to compare!</label>
                 <Autosuggest 
                     inputProps={{

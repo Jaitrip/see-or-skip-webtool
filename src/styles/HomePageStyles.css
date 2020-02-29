@@ -1,0 +1,13 @@
+
+.rowDisplay {
+    display: flex;
+    flex-direction: column;
+}
+
+.movieRow {
+    margin: 25px 50px 50px 100px;
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: space-evenly;
+}

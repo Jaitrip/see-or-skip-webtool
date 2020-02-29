@@ -1,5 +1,5 @@
 import React from 'react';
-import HomePageMovies from "../components/HomePageMovies"
+import HomePageMovies from "../components/homePageComponents/HomePageMovies"
 
 class HomePage extends React.Component {
    constructor() {

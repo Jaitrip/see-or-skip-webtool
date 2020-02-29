@@ -1,6 +1,7 @@
 import React from "react";
-import MoviePoster from "./MoviePoster";
+import MoviePoster from "../MoviePoster";
 import axios from "axios"
+import "../../styles/HomePageStyles.css"
 
 class CondensedMovieView extends React.Component {
     constructor(props) {
@@ -49,14 +50,14 @@ class CondensedMovieView extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="movieRow">
                 <MoviePoster 
-                    image_size={"w185"}
+                    image_size={"w154"}
                     poster_path={this.state.posterPath}
                 />
-                <h6>{this.state.movieName}</h6>
-                <h6>{this.state.releaseDate}</h6>
-                <h6>{this.state.seeOrSkip}</h6>
+                <h4>{this.state.movieName} </h4>
+                <h5>Release Date: {this.state.releaseDate}</h5>
+                <h5>{this.state.seeOrSkip}</h5>
             </div>
         )
     }

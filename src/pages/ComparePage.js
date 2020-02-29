@@ -1,6 +1,7 @@
 import React from 'react';
-import CompareMovieSelector from '../components/CompareMovieSelector'
-import CompareMovieResults from '../components/CompareMovieResults';
+import CompareMovieSelector from '../components/comparePageComponents/CompareMovieSelector'
+import CompareMovieResults from '../components/comparePageComponents/CompareMovieResults';
+import "../styles/CompareMovieLandingStyles.css"
 
 class ComparePage extends React.Component {
    constructor() {
@@ -47,12 +48,16 @@ class ComparePage extends React.Component {
       )
     } else {
       return (
-        <div>
-          <h1>Its a battle between two movies!</h1>
-          <h2>Which one will come out on top?</h2>
-          <CompareMovieSelector handler={this.handleFirstMovieChange}/>
-          <CompareMovieSelector handler={this.handleSecondMovieChange}/>
-          <button onClick={this.onClick} >Compare Movies!</button>
+        <div className="comparePageLanding">
+          <div>
+            <h1>Its a battle between two movies!</h1>
+            <h2>Which one will come out on top?</h2>
+          </div>
+          <div className="movieEntryArea">
+            <CompareMovieSelector handler={this.handleFirstMovieChange}/>
+            <CompareMovieSelector handler={this.handleSecondMovieChange}/>
+          </div>
+          <button onClick={this.onClick} >Compare</button>
         </div>
       )
     }

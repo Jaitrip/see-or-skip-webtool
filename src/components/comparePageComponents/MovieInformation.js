@@ -1,5 +1,5 @@
 import React from 'react'
-import MoviePoster from './MoviePoster.js'
+import MoviePoster from '../MoviePoster.js'
 import axios from 'axios'
 
 class MovieInformation extends React.Component {
@@ -69,15 +69,17 @@ class MovieInformation extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="movieArea">
                 <MoviePoster 
                     image_size={"w185"}
                     poster_path={this.state.posterPath}
                 />
-                <h2>{this.state.movieName}</h2>
-                <h3>Synopsis: {this.state.movieOverview}</h3>
-                <h3>Release Date: {this.state.movieReleaseDate}</h3>
-                <h3>See or Skip?: {this.state.seeOrSkip}</h3>
+                <div className="movieInformation">
+                <h3>{this.state.movieName}</h3>
+                    <p>{this.state.movieOverview}</p>
+                    <p>Release Date: {this.state.movieReleaseDate}</p>
+                    <p>See or Skip?: {this.state.seeOrSkip}</p>
+                </div>
             </div>
         )
     }

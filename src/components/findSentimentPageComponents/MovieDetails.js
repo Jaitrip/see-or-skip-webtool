@@ -3,6 +3,7 @@ import axios from 'axios';
 import MovieVisualisation from './MovieVisualisation'
 import MoviePoster from '../MoviePoster';
 import "../../styles/FindSentimentStyles.css"
+import MovieTrailer from './MovieTrailer';
 
 class MovieDetails extends React.Component {
    constructor(props) {
@@ -149,6 +150,11 @@ class MovieDetails extends React.Component {
                   <p>You should probably: {this.state.see_or_skip}</p>
                 </div>
               </div>
+            </div>
+            <div className="movieTrailer">
+              <MovieTrailer 
+                movie_id={this.state.movie_id}
+              />
             </div>
             <div className="visualisationArea">
               <h3>Twitter Sentiment Breakdown</h3>

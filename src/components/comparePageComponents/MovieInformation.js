@@ -1,6 +1,7 @@
 import React from 'react'
 import MoviePoster from '../MoviePoster.js'
 import axios from 'axios'
+import MovieTrailer from '../findSentimentPageComponents/MovieTrailer.js'
 
 class MovieInformation extends React.Component {
     constructor(props) {
@@ -69,17 +70,22 @@ class MovieInformation extends React.Component {
 
     render() {
         return (
-            <div className="movieArea">
-                <MoviePoster 
-                    image_size={"w185"}
-                    poster_path={this.state.posterPath}
-                />
-                <div className="movieInformation">
-                <h3>{this.state.movieName}</h3>
-                    <p>{this.state.movieOverview}</p>
-                    <p>Release Date: {this.state.movieReleaseDate}</p>
-                    <p>See or Skip?: {this.state.seeOrSkip}</p>
+            <div>
+                <div className="movieArea">
+                    <MoviePoster 
+                        image_size={"w185"}
+                        poster_path={this.state.posterPath}
+                    />
+                    <div className="movieInformation">
+                        <h3>{this.state.movieName}</h3>
+                        <p>{this.state.movieOverview}</p>
+                        <p>Release Date: {this.state.movieReleaseDate}</p>
+                        <p>See or Skip?: {this.state.seeOrSkip}</p>
+                    </div>
                 </div>
+                <MovieTrailer 
+                    movie_id={this.state.movieId}
+                />
             </div>
         )
     }

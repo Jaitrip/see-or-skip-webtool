@@ -19,9 +19,12 @@ movieSentimentRouter.route('/saveMovieSentiment').post((request, result) => {
     const movie_id = request.body.movie_id
     const movie_name = request.body.movie_name
     const release_date = request.body.release_date
-    const positive_comments = Number(request.body.positive_comments)
-    const negative_comments = Number(request.body.negative_comments)
-    const neutral_comments = Number(request.body.neutral_comments)
+    const twitter_positive_comments = Number(request.body.twitter_positive_comments)
+    const twitter_negative_comments = Number(request.body.twitter_negative_comments)
+    const twitter_neutral_comments = Number(request.body.twitter_neutral_comments)
+    const youtube_positive_comments = Number(request.body.youtube_positive_comments)
+    const youtube_negative_comments = Number(request.body.youtube_negative_comments)
+    const youtube_neutral_comments = Number(request.body.youtube_neutral_comments)
     const see_or_skip = request.body.see_or_skip
     const date_analysed = Date.parse(request.body.date_analysed)
 
@@ -29,9 +32,12 @@ movieSentimentRouter.route('/saveMovieSentiment').post((request, result) => {
         movie_id,
         movie_name,
         release_date,
-        positive_comments,
-        negative_comments,
-        neutral_comments,
+        twitter_positive_comments,
+        twitter_negative_comments,
+        twitter_neutral_comments,
+        youtube_positive_comments,
+        youtube_negative_comments,
+        youtube_neutral_comments,
         see_or_skip,
         date_analysed
     });

@@ -8,32 +8,44 @@ class CompareMovieResults extends React.Component {
         super(props)
         this.state = {
             firstMovieName : this.props.firstMovieToCompare,
-            firstMoviePostivieComments : "",
-            firstMovieNegativeComments : "",
-            firstMovieNeutralComments : "",
+            firstMovieTwitterPostivieComments : "",
+            firstMovieTwitterNegativeComments : "",
+            firstMovieTwitterNeutralComments : "",
+            firstMovieYoutubePostivieComments : "",
+            firstMovieYoutubeNegativeComments : "",
+            firstMovieYoutubeNeutralComments : "",
             secondMovieName : this.props.secondMovieToCompare,
-            secondMoviePostivieComments : "",
-            secondMovieNegativeComments : "",
-            secondMovieNeutralComments : ""
+            secondMovieTwitterPostivieComments : "",
+            secondMovieTwitterNegativeComments : "",
+            secondMovieTwitterNeutralComments : "",
+            secondMovieYoutubePostivieComments : "",
+            secondMovieYoutubeNegativeComments : "",
+            secondMovieYoutubeNeutralComments : ""
         }
 
         this.handleFirstMovieSentiment = this.handleFirstMovieSentiment.bind(this)
         this.handleSecondMovieSentiment = this.handleSecondMovieSentiment.bind(this)
     }
 
-    handleFirstMovieSentiment(positiveComments, negativeComments, neutralComments) {
+    handleFirstMovieSentiment(twitterPositiveComments, twitterNegativeComments, twitterNeutralComments, youtubePositiveComments, youtubeNegativeComments, youtubeNeutralComments) {
         this.setState({
-            firstMoviePostivieComments : positiveComments,
-            firstMovieNegativeComments : negativeComments,
-            firstMovieNeutralComments :  neutralComments,
+            firstMovieTwitterPostivieComments : twitterPositiveComments,
+            firstMovieTwitterNegativeComments : twitterNegativeComments,
+            firstMovieTwitterNeutralComments : twitterNeutralComments,
+            firstMovieYoutubePostivieComments : youtubePositiveComments,
+            firstMovieYoutubeNegativeComments : youtubeNegativeComments,
+            firstMovieYoutubeNeutralComments : youtubeNeutralComments
         })
     }
 
-    handleSecondMovieSentiment(positiveComments, negativeComments, neutralComments) {
+    handleSecondMovieSentiment(twitterPositiveComments, twitterNegativeComments, twitterNeutralComments, youtubePositiveComments, youtubeNegativeComments, youtubeNeutralComments) {
         this.setState({
-            secondMoviePostivieComments : positiveComments,
-            secondMovieNegativeComments : negativeComments,
-            secondMovieNeutralComments :  neutralComments,
+            secondMovieTwitterPostivieComments : twitterPositiveComments,
+            secondMovieTwitterNegativeComments : twitterNegativeComments,
+            secondMovieTwitterNeutralComments : twitterNeutralComments,
+            secondMovieYoutubePostivieComments : youtubePositiveComments,
+            secondMovieYoutubeNegativeComments : youtubeNegativeComments,
+            secondMovieYoutubeNeutralComments : youtubeNeutralComments
         })
     }
 
@@ -51,17 +63,32 @@ class CompareMovieResults extends React.Component {
                     />
                 </div>
                 <div className="visualisationArea">
-                    <h3>Twitter Sentiment Comparison</h3>
-                    <CompareMovieVisualisation 
-                        firstMovieName={this.state.firstMovieName}
-                        secondMovieName={this.state.secondMovieName}
-                        firstMoviePostivieComments={this.state.firstMoviePostivieComments}
-                        firstMovieNegativeComments={this.state.firstMovieNegativeComments}
-                        firstMovieNeutralComments={this.state.firstMovieNeutralComments}
-                        secondMoviePostivieComments={this.state.secondMoviePostivieComments}
-                        secondMovieNegativeComments={this.state.secondMovieNegativeComments}
-                        secondMovieNeutralComments={this.state.secondMovieNeutralComments}
-                    />
+                    <div className="visualisationSpacing">
+                        <h3>Twitter Sentiment Comparison</h3>
+                        <CompareMovieVisualisation 
+                            firstMovieName={this.state.firstMovieName}
+                            secondMovieName={this.state.secondMovieName}
+                            firstMoviePostivieComments={this.state.firstMovieTwitterPostivieComments}
+                            firstMovieNegativeComments={this.state.firstMovieTwitterNegativeComments}
+                            firstMovieNeutralComments={this.state.firstMovieTwitterNeutralComments}
+                            secondMoviePostivieComments={this.state.secondMovieTwitterPostivieComments}
+                            secondMovieNegativeComments={this.state.secondMovieTwitterNegativeComments}
+                            secondMovieNeutralComments={this.state.secondMovieTwitterNeutralComments}
+                        />
+                    </div>
+                    <div className="visualisationSpacing">
+                        <h3>Youtube Sentiment Comparison</h3>
+                        <CompareMovieVisualisation 
+                            firstMovieName={this.state.firstMovieName}
+                            secondMovieName={this.state.secondMovieName}
+                            firstMoviePostivieComments={this.state.firstMovieYoutubePostivieComments}
+                            firstMovieNegativeComments={this.state.firstMovieYoutubeNegativeComments}
+                            firstMovieNeutralComments={this.state.firstMovieYoutubeNeutralComments}
+                            secondMoviePostivieComments={this.state.secondYMovieYoutubePostivieComments}
+                            secondMovieNegativeComments={this.state.secondMovieYoutubeNegativeComments}
+                            secondMovieNeutralComments={this.state.secondMovieYoutubeNeutralComments}
+                        />
+                    </div>
                 </div>
             </div>
         )

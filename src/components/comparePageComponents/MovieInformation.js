@@ -12,9 +12,12 @@ class MovieInformation extends React.Component {
             movieOverview : "",
             movieReleaseDate : "",
             posterPath : '',
-            positiveComments: '',
-            negativeComments: '',
-            neutralComments: '',
+            twitterPositiveComments: '',
+            twitterNegativeComments: '',
+            twitterNeutralComments: '',
+            youtubePositiveComments: '',
+            youtubeNegativeComments: '',
+            youtubeNeutralComments: '',
             seeOrSkip: '',
             dateAnalysed: ''
         }
@@ -50,14 +53,17 @@ class MovieInformation extends React.Component {
         .then(apiResponse => {
             if (apiResponse.data !== null) {
                 this.setState({
-                    positiveComments: apiResponse.data.positive_comments,
-                    negativeComments: apiResponse.data.negative_comments,
-                    neutralComments: apiResponse.data.neutral_comments,
+                    twitterPositiveComments: apiResponse.data.twitter_positive_comments,
+                    twitterNegativeComments: apiResponse.data.twitter_negative_comments,
+                    twitterNeutralComments: apiResponse.data.twitter_neutral_comments,
+                    youtubePositiveComments: apiResponse.data.youtube_positive_comments,
+                    youtubeNegativeComments: apiResponse.data.youtube_negative_comments,
+                    youtubeNeutralComments: apiResponse.data.youtube_neutral_comments,
                     seeOrSkip: apiResponse.data.see_or_skip,
                     dateAnalysed: apiResponse.data.date_analysed
                 })
             }
-            this.props.handler(this.state.positiveComments, this.state.negativeComments, this.state.neutralComments) 
+            this.props.handler(this.state.twitterPositiveComments, this.state.twitterNegativeComments, this.state.twitterNeutralComments, this.state.youtubePositiveComments, this.state.youtubeNegativeComments, this.state.youtubeNeutralComments) 
         })
         .catch(error => {
             console.log(error)

@@ -15,9 +15,12 @@ class MovieDetails extends React.Component {
       movie_overview : '',
       movie_release_date : '',
       poster_path : '',
-      positive_comments: '',
-      negative_comments: '',
-      neutral_comments: '',
+      twitter_positive_comments: '',
+      twitter_negative_comments: '',
+      twitter_neutral_comments: '',
+      youtube_positive_comments: '',
+      youtube_negative_comments: '',
+      youtube_neutral_comments: '',
       see_or_skip: '',
       date_analysed: ''
      }
@@ -54,9 +57,12 @@ class MovieDetails extends React.Component {
         if (apiResponse.data !== null) {
           this.setState({
             movie_found : true,
-            positive_comments: apiResponse.data.positive_comments,
-            negative_comments: apiResponse.data.negative_comments,
-            neutral_comments: apiResponse.data.neutral_comments,
+            twitter_positive_comments: apiResponse.data.twitter_positive_comments,
+            twitter_negative_comments: apiResponse.data.twitter_negative_comments,
+            twitter_neutral_comments: apiResponse.data.twitter_neutral_comments,
+            youtube_positive_comments: apiResponse.data.youtube_positive_comments,
+            youtube_negative_comments: apiResponse.data.youtube_negative_comments,
+            youtube_neutral_comments: apiResponse.data.youtube_neutral_comments,
             see_or_skip: apiResponse.data.see_or_skip,
             date_analysed: apiResponse.data.date_analysed
           })
@@ -79,23 +85,27 @@ class MovieDetails extends React.Component {
           'Content-Type': 'application/json'
         }
       })  
-      .then(apiResponse => { 
-        if ((Number(apiResponse.data.positive_comments)) > (Number(apiResponse.data.negative_comments))) {
+      .then(apiResponse => {  
+        this.setState({
+          twitter_positive_comments: apiResponse.data.twitter_positive_comments,
+          twitter_negative_comments: apiResponse.data.twitter_negative_comments,
+          twitter_neutral_comments : apiResponse.data.twitter_neutral_comments,
+          youtube_positive_comments: apiResponse.data.youtube_positive_comments,
+          youtube_negative_comments: apiResponse.data.youtube_negative_comments,
+          youtube_neutral_comments : apiResponse.data.youtube_neutral_comments,
+          date_analysed : new Date()
+        })
+
+        const totalPositive = Number(this.state.twitter_positive_comments) + Number(this.state.youtube_positive_comments)
+        const totalNegative = Number(this.state.twitter_negative_comments) + Number(this.state.youtube_negative_comments)
+
+        if (totalPositive > totalNegative) {
           this.setState({
-            positive_comments: apiResponse.data.positive_comments,
-            negative_comments: apiResponse.data.negative_comments,
-            neutral_comments : apiResponse.data.neutral_comments,
-            see_or_skip : "See!",
-            date_analysed : new Date()
+            see_or_skip : "See!"
           })
-          console.log("see")
         } else {
           this.setState({
-            positive_comments: apiResponse.data.positive_comments,
-            negative_comments: apiResponse.data.negative_comments,
-            neutral_comments : apiResponse.data.neutral_comments,
-            see_or_skip : "Skip!",
-            date_analysed : new Date()
+            see_or_skip : "Skip!"
           })
         }
         this.addMovieSentimentToDatabase()
@@ -111,9 +121,12 @@ class MovieDetails extends React.Component {
         movie_id : this.state.movie_id,
         movie_name : this.state.movie_name,
         release_date : this.state.movie_release_date,
-        positive_comments : this.state.positive_comments,
-        negative_comments : this.state.negative_comments,
-        neutral_comments : this.state.neutral_comments,
+        twitter_positive_comments : this.state.twitter_positive_comments,
+        twitter_negative_comments : this.state.twitter_negative_comments,
+        twitter_neutral_comments : this.state.twitter_neutral_comments,
+        youtube_positive_comments : this.state.youtube_positive_comments,
+        youtube_negative_comments : this.state.youtube_negative_comments,
+        youtube_neutral_comments : this.state.youtube_neutral_comments,
         see_or_skip : this.state.see_or_skip,
         date_analysed : this.state.date_analysed
       })
@@ -157,13 +170,24 @@ class MovieDetails extends React.Component {
               />
             </div>
             <div className="visualisationArea">
-              <h3>Twitter Sentiment Breakdown</h3>
-              <MovieVisualisation
-                date_analysed={this.state.date_analysed}
-                positive_comments={this.state.positive_comments}
-                negative_comments={this.state.negative_comments}
-                neutral_comments={this.state.neutral_comments}
-              />
+              <div className="visualisationSpacing">
+                <h3>Twitter Sentiment Breakdown</h3>
+                <MovieVisualisation
+                  date_analysed={this.state.date_analysed}
+                  positive_comments={this.state.twitter_positive_comments}
+                  negative_comments={this.state.twitter_negative_comments}
+                  neutral_comments={this.state.twitter_neutral_comments}
+                />
+              </div>
+              <div className="visualisationSpacing">
+                <h3>Youtube Sentiment Breakdown</h3>
+                <MovieVisualisation
+                  date_analysed={this.state.date_analysed}
+                  positive_comments={this.state.youtube_positive_comments}
+                  negative_comments={this.state.youtube_negative_comments}
+                    neutral_comments={this.state.youtube_neutral_comments}
+                />
+              </div>
             </div>
           </div>
        </div>

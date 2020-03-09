@@ -68,6 +68,15 @@ p {
 .visualisationArea {
     margin-top: 10px;
     margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.visualisationSpacing {
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 

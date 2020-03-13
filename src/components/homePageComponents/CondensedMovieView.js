@@ -36,9 +36,12 @@ class CondensedMovieView extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
+            const releaseDate = this.props.releaseDate.split("-")
+            const formattedReleaseDate = releaseDate[2] + "/" + releaseDate[1] + "/" + releaseDate[0]
+
             this.setState({
                 movieName : this.props.movieName,
-                releaseDate : this.props.releaseDate,
+                releaseDate : formattedReleaseDate,
                 seeOrSkip : this.props.seeOrSkip,
             })
         }

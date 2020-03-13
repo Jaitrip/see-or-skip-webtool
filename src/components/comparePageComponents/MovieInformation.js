@@ -34,11 +34,14 @@ class MovieInformation extends React.Component {
             }
         })
         .then(apiResponse => {
+            const releaseDate = apiResponse.data.results[0].release_date.split("-")
+            const formattedReleaseDate = releaseDate[2] + "/" + releaseDate[1] + "/" + releaseDate[0]
+
             this.setState({
                 movieId : apiResponse.data.results[0].id,
                 movieName : apiResponse.data.results[0].title,
                 movieOverview : apiResponse.data.results[0].overview,
-                movieReleaseDate : apiResponse.data.results[0].release_date,
+                movieReleaseDate : formattedReleaseDate,
                 posterPath : apiResponse.data.results[0].poster_path,
             })
             this.getMovieSentiment()

@@ -36,11 +36,14 @@ class MovieDetails extends React.Component {
          include_adult : 'false' 
        }
      }).then(apiResponse => {
+        const releaseDate = apiResponse.data.results[0].release_date.split("-")
+        const formattedReleaseDate = releaseDate[2] + "/" + releaseDate[1] + "/" + releaseDate[0]
+
        this.setState({
         movie_id : apiResponse.data.results[0].id,
         movie_name : apiResponse.data.results[0].title,
         movie_overview : apiResponse.data.results[0].overview,
-        movie_release_date : apiResponse.data.results[0].release_date,
+        movie_release_date : formattedReleaseDate,
         poster_path : apiResponse.data.results[0].poster_path
        })
        this.checkIfMovieAnalysed(this.state.movie_id)

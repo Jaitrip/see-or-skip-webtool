@@ -1,13 +1,29 @@
-
-.rowDisplay {
-    display: flex;
-    flex-direction: column;
+.homePage h2 {
+    font-size: 50px;
+    line-height: 300%;
 }
 
-.movieRow {
-    margin: 25px 50px 50px 100px;
+.tableDisplay {
     display: flex;
-    flex-direction: row;
-    align-content: flex-start;
+    align-items: center;
+    align-content: center;
     justify-content: space-evenly;
+}
+
+th {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding : 10px;
+    text-align: center;
+}
+
+td {
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    padding : 10px;
+    text-align: center
+}
+
+table {
+    border-collapse: collapse;
+    width: 70%;
 }

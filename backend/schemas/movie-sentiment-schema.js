@@ -1,6 +1,8 @@
+// initalise mongo schema for data storage
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+// data to be stored with types and requirements
 const movieSentimentSchemea = new Schema({
     movie_id: {type: String, required: true},
     movie_name: {type: String, required: true},

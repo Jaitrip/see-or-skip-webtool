@@ -16,6 +16,7 @@ class App extends React.Component {
      this.state = {}
    }
 
+   // setup website routes
    render() {
      return (
        <BrowserRouter>

@@ -12,14 +12,15 @@ class MovieTrailer extends React.Component {
         }
     }
 
+    // get the youtube id for the latest movie trailer
     getVideoID() {
         if (this.state.movieId !== null) {
             const apiUrl = "http://api.themoviedb.org/3/movie/" + this.state.movieId + "/videos?api_key=146fa0756d99220f8811aceb8a865301"
-            console.log(apiUrl)
+
             axios.get(apiUrl)
             .then(apiResponse => {
-                console.log(apiResponse)
                 this.setState({
+                    // get latest trailer added to the list of trailers
                     videoId : apiResponse.data.results[apiResponse.data.results.length - 1].key
                 })
             })
@@ -29,10 +30,12 @@ class MovieTrailer extends React.Component {
         }
     }
 
+    // load the trailer paused
     onReady(event) {
         event.target.pauseVideo()
     }
 
+    // save any changes to the movie name to state
     componentDidUpdate(prevProps) {
         if (this.props !== prevProps) {
             this.setState({
@@ -42,11 +45,13 @@ class MovieTrailer extends React.Component {
         }
     }
 
+    // when the component mounts, get the movie id
     componentDidMount() {
         this.getVideoID();
     }
 
     render() {
+        // video rendering options
         const options = {
             height: '390',
             width: '640',
@@ -55,6 +60,7 @@ class MovieTrailer extends React.Component {
             }
         }
 
+        //only load the component if the video id is not null
         if (this.state.videoId !== "") {
             return (
                 <YouTube 

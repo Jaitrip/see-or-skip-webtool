@@ -1,51 +1,43 @@
 import React from 'react'
-import MovieInformation from './MovieInformation'
 import CompareMovieVisualisation from './CompareMovieVisualisation'
+import MovieTrailer from '../findSentimentPageComponents/MovieTrailer'
 import "../../styles/CompareMovieResultsStyles.css"
+import MovieDetails from '../MovieDetails'
 
 class CompareMovieResults extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             firstMovieName : this.props.firstMovieToCompare,
-            firstMovieTwitterPostivieComments : "",
-            firstMovieTwitterNegativeComments : "",
-            firstMovieTwitterNeutralComments : "",
-            firstMovieYoutubePostivieComments : "",
-            firstMovieYoutubeNegativeComments : "",
-            firstMovieYoutubeNeutralComments : "",
+            firstMovieID : "",
+            firstMovieTwitterSentiment : [],
+            firstMovieYoutubeSentiment : [],
             secondMovieName : this.props.secondMovieToCompare,
-            secondMovieTwitterPostivieComments : "",
-            secondMovieTwitterNegativeComments : "",
-            secondMovieTwitterNeutralComments : "",
-            secondMovieYoutubePostivieComments : "",
-            secondMovieYoutubeNegativeComments : "",
-            secondMovieYoutubeNeutralComments : ""
+            secondMovieID : "",
+            secondMovieTwitterSentiment : [],
+            secondMovieYoutubeSentiment : [],
         }
 
+        // bind methods to the object
         this.handleFirstMovieSentiment = this.handleFirstMovieSentiment.bind(this)
         this.handleSecondMovieSentiment = this.handleSecondMovieSentiment.bind(this)
     }
 
-    handleFirstMovieSentiment(twitterPositiveComments, twitterNegativeComments, twitterNeutralComments, youtubePositiveComments, youtubeNegativeComments, youtubeNeutralComments) {
+    // callback function to save movie sentiment to state from a child component
+    handleFirstMovieSentiment(movieID, twitterSentiment, youtubeSentiment) {
         this.setState({
-            firstMovieTwitterPostivieComments : twitterPositiveComments,
-            firstMovieTwitterNegativeComments : twitterNegativeComments,
-            firstMovieTwitterNeutralComments : twitterNeutralComments,
-            firstMovieYoutubePostivieComments : youtubePositiveComments,
-            firstMovieYoutubeNegativeComments : youtubeNegativeComments,
-            firstMovieYoutubeNeutralComments : youtubeNeutralComments
+            firstMovieID : movieID,
+            firstMovieTwitterSentiment : twitterSentiment,
+            firstMovieYoutubeSentiment : youtubeSentiment,
         })
     }
 
-    handleSecondMovieSentiment(twitterPositiveComments, twitterNegativeComments, twitterNeutralComments, youtubePositiveComments, youtubeNegativeComments, youtubeNeutralComments) {
+    // callback function to save movie sentiment to state from a child component
+    handleSecondMovieSentiment(movieID, twitterSentiment, youtubeSentiment) {
         this.setState({
-            secondMovieTwitterPostivieComments : twitterPositiveComments,
-            secondMovieTwitterNegativeComments : twitterNegativeComments,
-            secondMovieTwitterNeutralComments : twitterNeutralComments,
-            secondMovieYoutubePostivieComments : youtubePositiveComments,
-            secondMovieYoutubeNegativeComments : youtubeNegativeComments,
-            secondMovieYoutubeNeutralComments : youtubeNeutralComments
+            secondMovieID : movieID,
+            secondMovieTwitterSentiment : twitterSentiment,
+            secondMovieYoutubeSentiment : youtubeSentiment,
         })
     }
 
@@ -53,27 +45,41 @@ class CompareMovieResults extends React.Component {
         return (
             <div>
                 <div className="movieInformationArea">
-                    <MovieInformation 
-                        handler={this.handleFirstMovieSentiment} 
-                        movieName={this.state.firstMovieName} 
-                    />
-                    <MovieInformation 
-                        handler={this.handleSecondMovieSentiment} 
-                        movieName={this.state.secondMovieName} 
-                    />
+                    <div>
+                        <MovieDetails
+                            handler={this.handleFirstMovieSentiment} 
+                            component_location="compare"
+                            movieName={this.state.firstMovieName} 
+                        />
+                    </div>
+                    <div>
+                        <MovieDetails
+                            handler={this.handleSecondMovieSentiment} 
+                            component_location="compare"
+                            movieName={this.state.secondMovieName} 
+                        />
+                    </div>
                 </div>
-                <div className="visualisationArea">
+                <div className="trailers">
+                    <div className="trailer">
+                        <MovieTrailer 
+                            movie_id={this.state.firstMovieID}
+                        />
+                    </div>
+                    <div className="trailer">
+                        <MovieTrailer 
+                            movie_id={this.state.secondMovieID}
+                        />
+                    </div>
+                </div>
+                <div className="compareVisualisationArea">
                     <div className="visualisationSpacing">
                         <h3>Twitter Sentiment Comparison</h3>
                         <CompareMovieVisualisation 
                             firstMovieName={this.state.firstMovieName}
                             secondMovieName={this.state.secondMovieName}
-                            firstMoviePostivieComments={this.state.firstMovieTwitterPostivieComments}
-                            firstMovieNegativeComments={this.state.firstMovieTwitterNegativeComments}
-                            firstMovieNeutralComments={this.state.firstMovieTwitterNeutralComments}
-                            secondMoviePostivieComments={this.state.secondMovieTwitterPostivieComments}
-                            secondMovieNegativeComments={this.state.secondMovieTwitterNegativeComments}
-                            secondMovieNeutralComments={this.state.secondMovieTwitterNeutralComments}
+                            firstMovieSentiment={this.state.firstMovieTwitterSentiment}
+                            secondMovieSentiment={this.state.secondMovieTwitterSentiment}
                         />
                     </div>
                     <div className="visualisationSpacing">
@@ -81,12 +87,8 @@ class CompareMovieResults extends React.Component {
                         <CompareMovieVisualisation 
                             firstMovieName={this.state.firstMovieName}
                             secondMovieName={this.state.secondMovieName}
-                            firstMoviePostivieComments={this.state.firstMovieYoutubePostivieComments}
-                            firstMovieNegativeComments={this.state.firstMovieYoutubeNegativeComments}
-                            firstMovieNeutralComments={this.state.firstMovieYoutubeNeutralComments}
-                            secondMoviePostivieComments={this.state.secondYMovieYoutubePostivieComments}
-                            secondMovieNegativeComments={this.state.secondMovieYoutubeNegativeComments}
-                            secondMovieNeutralComments={this.state.secondMovieYoutubeNeutralComments}
+                            firstMovieSentiment={this.state.firstMovieYoutubeSentiment}
+                            secondMovieSentiment={this.state.secondMovieYoutubeSentiment}
                         />
                     </div>
                 </div>

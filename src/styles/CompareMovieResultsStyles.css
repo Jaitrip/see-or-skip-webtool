@@ -1,34 +1,11 @@
-img {
-    border : 2px solid rgba(255, 255, 255, .5);
-    border-radius: 4px;
-}
-
-p {
+.compareMovieInformation p {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     line-height: 100%;
     max-width: 600px;
 }
 
-.movieInformationArea {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.movieArea {
-    margin-left: 100px;
-    margin-right: 20px;
-    margin-top: 50px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.movieInformation {
+.compareMovieInformation {
     margin-left: 100px;
     margin-right: 20px;
     margin-top: 10px;
@@ -40,14 +17,38 @@ p {
     align-content: flex-start;
 }
 
-.visualisationArea {
+.movieInformationArea {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
 }
 
-.visualisationSpacing {
-    margin-top: 150px;
-    margin-bottom: 150px;
+.trailers {
+    display: flex;
+    flex-direction: row;
+    /* margin: 20px; */
+    justify-content: center;
+}
+
+.trailer {
+    margin: 50px;
+} 
+
+.compareMovieArea {
+    margin-left: 100px;
+    margin-right: 20px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.compareVisualisationArea {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }

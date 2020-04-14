@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 import '../styles/NavigationBar.css'
 
+// nav bar inline style
 const navStyle = {
   color: 'white',
   textDecoration: 'none'

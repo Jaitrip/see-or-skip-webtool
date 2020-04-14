@@ -1,36 +1,45 @@
 import React from "react"
 import axios from "axios"
-import CondensedMovieView from "./CondensedMovieView"
+import moment from "moment"
 import "../../styles/HomePageStyles.css"
+import MoviePoster from "../MoviePoster"
 
 class HomePageMovies extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            upcomingMovies : ""
+            upcomingMovies : "",
         }
     }
 
+    // sort movie array by date
     sortByDate(firstMovie, secondMovie) {
-        const firstMovieReleaseDate = new Date(firstMovie.release_date).getTime()
-        const secondMovieReleaseDate = new Date(secondMovie.release_date).getTime()
-      
-        return firstMovieReleaseDate - secondMovieReleaseDate
+        return moment(firstMovie.release_date) - moment(secondMovie.release_date)
     }
 
+    // get a list of upcoming movies and get 5 upcoming ones
     getUpcomingMovies() {
         axios.get("http://localhost:5000/movieSentiment/findMovieSentiment/")
         .then(apiResponse => {
-          this.setState({
-            upcomingMovies : apiResponse.data.sort(this.sortByDate).slice(0, 5)
-          })
-          console.log(this.state.upcomingMovies)
+            // sort movie array
+            const sorted_movies = apiResponse.data.sort(this.sortByDate)
+
+            // filter array by movies by movies that have been out for a month or less
+            const upcomingMovies = sorted_movies.filter(function(movie) {
+                return moment(movie.release_date) > moment().subtract(1, "months")
+            })
+
+            // save upcoming movies to the state
+            this.setState({
+                upcomingMovies : upcomingMovies.slice(0, 5)
+            })
         })
         .catch(error => {
             console.log(error)
         })
     }
 
+    // when component mounts, get upcoming movies
     componentDidMount() {
         this.getUpcomingMovies()
     }
@@ -38,36 +47,30 @@ class HomePageMovies extends React.Component {
     render() {
         if (this.state.upcomingMovies !== "") {
             return (
-                <div className="rowDisplay">
-                    <CondensedMovieView 
-                        movieName={this.state.upcomingMovies[0].movie_name}
-                        releaseDate={this.state.upcomingMovies[0].release_date}
-                        seeOrSkip={this.state.upcomingMovies[0].see_or_skip}
-                    />
-
-                    <CondensedMovieView 
-                        movieName={this.state.upcomingMovies[1].movie_name}
-                        releaseDate={this.state.upcomingMovies[1].release_date}
-                        seeOrSkip={this.state.upcomingMovies[1].see_or_skip}
-                    />
-
-                    <CondensedMovieView 
-                        movieName={this.state.upcomingMovies[2].movie_name}
-                        releaseDate={this.state.upcomingMovies[2].release_date}
-                        seeOrSkip={this.state.upcomingMovies[2].see_or_skip}
-                    />
-
-                    <CondensedMovieView 
-                        movieName={this.state.upcomingMovies[3].movie_name}
-                        releaseDate={this.state.upcomingMovies[3].release_date}
-                        seeOrSkip={this.state.upcomingMovies[3].see_or_skip}
-                    />
-
-                    <CondensedMovieView 
-                        movieName={this.state.upcomingMovies[4].movie_name}
-                        releaseDate={this.state.upcomingMovies[4].release_date}
-                        seeOrSkip={this.state.upcomingMovies[4].see_or_skip}
-                    />
+                <div className="homePage">
+                    <h2>Featured Movies</h2>
+                    <div className="tableDisplay">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Movie Poster</th>
+                                    <th>Movie Title</th>
+                                    <th>Release Date</th>
+                                    <th>See Or Skip?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.upcomingMovies.map((row, index) => (
+                                    <tr>
+                                        <td><MoviePoster image_size={"w154"} movie_title={row.movie_name}/></td>
+                                        <td>{row.movie_name}</td>
+                                        <td>{moment(row.release_date).format("DD/MM/YYYY")}</td>
+                                        <td>{row.see_or_skip}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )
         } else {

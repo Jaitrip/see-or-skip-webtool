@@ -1,11 +1,11 @@
 import React from 'react'
-import {Radar} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 class CompareMovieVisualisation extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            labels : ["Positive", "Negative", "Neutral"],
+            labels : ["Positive","Neutral", "Negative"],
             datasets : [
                 {
                     label: this.props.firstMovieName,
@@ -15,11 +15,7 @@ class CompareMovieVisualisation extends React.Component {
                     pointBorderColor: '#fff',
                     pointHoverBackgroundColor: '#fff',
                     pointHoverBorderColor: 'rgba(179,181,198,1)',
-                    data : [
-                        Number(this.props.firstMoviePostivieComments), 
-                        Number(this.props.firstMovieNegativeComments), 
-                        Number(this.props.firstMovieNeutralComments)
-                    ]
+                    data : this.props.firstMovieSentiment
                 },
 
                 {
@@ -30,16 +26,13 @@ class CompareMovieVisualisation extends React.Component {
                     pointBorderColor: '#fff',
                     pointHoverBackgroundColor: '#fff',
                     pointHoverBorderColor: 'rgba(255,99,132,1)',
-                    data : [
-                        Number(this.props.secondMoviePostivieComments), 
-                        Number(this.props.secondMovieNegativeComments), 
-                        Number(this.props.secondMovieNeutralComments)
-                    ]
+                    data : this.props.secondMovieSentiment
                 }
             ]
         }
     }
 
+    // save changes passed to the component in the state
     componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
             this.setState({
@@ -52,11 +45,7 @@ class CompareMovieVisualisation extends React.Component {
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
                         pointHoverBorderColor: 'rgba(179,181,198,1)',
-                        data : [
-                            Number(this.props.firstMoviePostivieComments), 
-                            Number(this.props.firstMovieNegativeComments), 
-                            Number(this.props.firstMovieNeutralComments)
-                        ]
+                        data : this.props.firstMovieSentiment
                     },
     
                     {
@@ -67,11 +56,7 @@ class CompareMovieVisualisation extends React.Component {
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
                         pointHoverBorderColor: 'rgba(255,99,132,1)',
-                        data : [
-                            Number(this.props.secondMoviePostivieComments), 
-                            Number(this.props.secondMovieNegativeComments), 
-                            Number(this.props.secondMovieNeutralComments)
-                        ]
+                        data : this.props.secondMovieSentiment
                     }
                 ]
             })
@@ -81,14 +66,40 @@ class CompareMovieVisualisation extends React.Component {
     render() {
         return (
             <div>
-                <Radar 
+                <Line
                     data={{
                         labels : this.state.labels,
                         datasets : this.state.datasets
                     }}
-                    width={500}
-                    height={500}
-                    options={{ maintainAspectRatio: false }}
+                        width={600}
+                        height={300}
+                        options={{ 
+                            maintainAspectRatio: false,
+                            scales: {
+                                xAxes: [{
+                                  display: true,
+                                  gridLines: {
+                                    display: true,
+                                    color: "rgba(255, 255, 255, 0.5)"
+                                  },
+                                  scaleLabel: {
+                                    display: true,
+                                    labelString: 'Sentiment',
+                                  }
+                                }],
+                                yAxes: [{
+                                  display: true,
+                                  gridLines: {
+                                    display: true,
+                                    color: "rgba(255, 255, 255, 0.5)"
+                                  },
+                                  scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value',
+                                  }
+                                }]
+                            }
+                        }}
                 />
             </div>
         )

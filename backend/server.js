@@ -13,7 +13,7 @@ app.use(express.json());
 
 //Connect to mongo database
 const uri = "mongodb+srv://see-or-skip-dev:development@seeorskipcluster-2etjz.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true});
+mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false});
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("connected");
@@ -23,20 +23,6 @@ app.use((request, result, next) => {
     result.header('Access-Control-Allow-Origin', '*');
     next();
 });
-
-app.post('/getTwitterMovieSentiment', (req, res) => {
-    const movie_name = req.body.movie_name
-    request(
-      { url: 'http://127.0.0.1:5000/see-or-skip/get_sentiment_classification' },
-      (error, response, body) => {
-        if (error || response.statusCode !== 200) {
-          return res.status(500).json({ type: 'error', message: err.message });
-        }
-  
-        res.json(JSON.parse(body));
-      }
-    )
-  });
 
 //Set up routes
 const movieSentimentRouter = require('./endpoint_routes/MovieSentimentRoute');

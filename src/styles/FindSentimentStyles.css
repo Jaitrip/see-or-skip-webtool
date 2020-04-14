@@ -1,18 +1,3 @@
-h3 {
-    line-height: 100%;
-}
-
-img {
-    border : 2px solid rgba(255, 255, 255, .5);
-    border-radius: 4px;
-}
-
-p {
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    line-height: 100%;
-    max-width: 600px;
-}
 
 .findSentimentLanding {
     display: flex;
@@ -21,14 +6,19 @@ p {
 }
 
 .findSentimentResults {
-    margin-left: 500px;
-    margin-right: 500px;
+    margin-left: 300px;
+    margin-right: 300px;
     margin-top: 50px;
     margin-bottom: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.findSentimentResults h3 {
+    line-height: 100%;
+    font-size: 55px;
 }
 
 .movieArea {
@@ -61,22 +51,20 @@ p {
     align-content: flex-start;
 }
 
+.movieInformation p {
+    font-size: 18px;
+    line-height: 150%;
+}
+
 .movieTrailer {
     margin-top: 50px;
 }
 
 .visualisationArea {
-    margin-top: 10px;
+    margin-top: 70px;
     margin-bottom: 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
 }
-
-.visualisationSpacing {
-    margin-left: 100px;
-    margin-right: 100px;
-}
-
-

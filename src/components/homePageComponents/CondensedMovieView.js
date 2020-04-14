@@ -1,6 +1,7 @@
 import React from "react";
 import MoviePoster from "../MoviePoster";
 import axios from "axios"
+import moment from "moment"
 import "../../styles/HomePageStyles.css"
 
 class CondensedMovieView extends React.Component {
@@ -8,12 +9,13 @@ class CondensedMovieView extends React.Component {
         super(props)
         this.state = {
             movieName : this.props.movieName,
-            releaseDate : this.props.releaseDate,
+            releaseDate : moment(this.props.releaseDate).format("DD/MM/YYYY"),
             seeOrSkip : this.props.seeOrSkip,
             posterPath : ""
         }
     }
 
+    // get poster path from tmdb api
     getPosterPath() {
         axios.get("https://api.themoviedb.org/3/search/movie", {
             params: {
@@ -34,23 +36,22 @@ class CondensedMovieView extends React.Component {
         })
     }
 
+    // update state if props change
     componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
-            const releaseDate = this.props.releaseDate.split("-")
-            const formattedReleaseDate = releaseDate[2] + "/" + releaseDate[1] + "/" + releaseDate[0]
-
             this.setState({
                 movieName : this.props.movieName,
-                releaseDate : formattedReleaseDate,
+                releaseDate : moment(this.props.releaseDate).format("DD/MM/YYYY"),
                 seeOrSkip : this.props.seeOrSkip,
             })
         }
     }
 
+    // get poster path when the component mounts
     componentDidMount() {
         this.getPosterPath()
     }
-
+    
     render() {
         return (
             <div className="movieRow">
@@ -58,9 +59,12 @@ class CondensedMovieView extends React.Component {
                     image_size={"w154"}
                     poster_path={this.state.posterPath}
                 />
-                <h4>{this.state.movieName} </h4>
-                <h5>Release Date: {this.state.releaseDate}</h5>
-                <h5>{this.state.seeOrSkip}</h5>
+                <div className="movieDetails">
+                    <h4>{this.state.movieName} </h4>
+                    <h5>Release Date: {this.state.releaseDate}</h5>
+                    <h5>{this.state.seeOrSkip}</h5>
+                </div>
+
             </div>
         )
     }

@@ -12,6 +12,7 @@ class CompareMovieSelector extends React.Component {
         }
     }
 
+    // get the list of all movies from the database
     getAllMovies() {
         axios.get("http://localhost:5000/movieSentiment/findMovieSentiment")
         .then(apiResponse => {
@@ -24,16 +25,18 @@ class CompareMovieSelector extends React.Component {
         })
     }
 
+    // when the component is loaded, run the following methods
     componentDidMount() {
         this.getAllMovies()
     }
 
-    getSuggestions = value => {
+    // filter the list of movies to get suggestions depending on the current user input
+    getSuggestions = (value) => {
         const inputValue = value.toString().trim().toLowerCase();
         const inputLength = inputValue.length;
       
-        return inputLength === 0 ? [] : this.state.all_movies.filter(lang =>
-          lang.movie_name.toLowerCase().slice(0, inputLength) === inputValue
+        return inputLength === 0 ? [] : this.state.all_movies.filter(movie =>
+          movie.movie_name.toLowerCase().slice(0, inputLength) === inputValue
         );
     };
     

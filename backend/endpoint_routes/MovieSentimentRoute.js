@@ -1,20 +1,42 @@
+// get schema and initalise router
 const movieSentimentRouter = require('express').Router();
 let MovieSentiment = require('../schemas/movie-sentiment-schema');
 
+//endpoint to get a list of all movies in the datavase
 movieSentimentRouter.route('/findMovieSentiment').get((request, result) => {
-    MovieSentiment.find().then(movieSentiments => result.json(movieSentiments)).catch(error => result.status(400).json('Error encountered:' + error))
+    MovieSentiment.find()
+    .then(movieSentiments => result.json(movieSentiments))
+    .catch(error => result.status(400).json('Error encountered:' + error))
 })
 
+//endpoint to get the movie information for a particular movie
 movieSentimentRouter.route('/findMovieSentiment/:movie_id').get((request, result) => {
     const request_movie_id = request.params.movie_id
-    MovieSentiment.findOne({movie_id : request_movie_id}).then(movieSentiment => result.json(movieSentiment)).catch(error => result.status(400).json('Error encountered:' + error))
+
+    MovieSentiment.findOne({movie_id : request_movie_id})
+    .then(movieSentiment => result.json(movieSentiment))
+    .catch(error => result.status(400).json('Error encountered:' + error))
 })
 
+// endpoint to delete a particular movie from the database
 movieSentimentRouter.route('/findMovieSentiment/:movie_id').delete((request, result) => {
     const delete_movie_id = request.params.movie_id
-    MovieSentiment.findOneAndDelete(delete_movie_id).then(() => result.json("movie sentiment deleted")).catch(error => result.status(400).json('Error encountered:' + error))
+
+    MovieSentiment.findOneAndDelete(delete_movie_id)
+    .then(() => result.json("movie sentiment deleted"))
+    .catch(error => result.status(400).json('Error encountered:' + error))
 })
 
+//endpoint to update a movies sentiment
+movieSentimentRouter.route('/updateMovieSentiment').post((request, result) => {
+    const query = {movie_id : request.body.movie_id}
+
+    MovieSentiment.findOneAndUpdate(query, request.body, {upsert: true})
+    .then(result.send("Record Updated"))
+    .catch(error => result.status(400).json('Error encountered:' + error))
+})
+
+//endpoint to save the movies details to the database
 movieSentimentRouter.route('/saveMovieSentiment').post((request, result) => {
     const movie_id = request.body.movie_id
     const movie_name = request.body.movie_name

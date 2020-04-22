@@ -31,12 +31,12 @@ class CompareMovieSelector extends React.Component {
     }
 
     // filter the list of movies to get suggestions depending on the current user input
-    getSuggestions = (value) => {
-        const inputValue = value.toString().trim().toLowerCase();
-        const inputLength = inputValue.length;
+    getSuggestions = (movieName) => {
+        const input = movieName.toString().trim().toLowerCase();
+        const inputLength = input.length;
       
         return inputLength === 0 ? [] : this.state.all_movies.filter(movie =>
-          movie.movie_name.toLowerCase().slice(0, inputLength) === inputValue
+          movie.movie_name.toLowerCase().slice(0, inputLength) === input
         );
     };
     

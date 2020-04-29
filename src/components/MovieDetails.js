@@ -1,16 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import MovieVisualisation from './findSentimentPageComponents/MovieVisualisation'
-import MoviePoster from './MoviePoster';
+import MovieVisualisation from './findSentimentPageComponents/MovieVisualisation.js'
+import MoviePoster from './MoviePoster.js';
 import "../styles/FindSentimentStyles.css"
 import "../styles/CompareMovieResultsStyles.css"
-import MovieTrailer from './findSentimentPageComponents/MovieTrailer';
+import MovieTrailer from './MovieTrailer.js';
 import moment from 'moment';
 
 class MovieDetails extends React.Component {
-   constructor(props) {
-     super(props)
-     this.state = {
+  constructor(props) {
+    super(props)
+    this.state = {
       movieFound: false,
       component_location : this.props.component_location,
       movieId: '',
@@ -22,195 +22,199 @@ class MovieDetails extends React.Component {
       youtubeSentiment : [],
       seeOrSkip: '',
       dateAnalysed: ''
-     }
-   }
+    }
+  }
 
-    // get movie details from tmdb api
-    getMovieInformation(movieName) {
-      axios.get("https://api.themoviedb.org/3/search/movie", {
-       params: {
-         api_key : '146fa0756d99220f8811aceb8a865301',
-         language : 'en-US',
-         query : movieName,
-         page : '1',
-         include_adult : 'false' 
-       }
-     }).then(apiResponse => {
+  // get movie details from tmdb api
+  getMovieInformation(movieName) {
+    axios.get("https://api.themoviedb.org/3/search/movie", {
+      params: {
+        api_key : '146fa0756d99220f8811aceb8a865301',
+        language : 'en-US',
+        query : movieName,
+        page : '1',
+        include_adult : 'false' 
+      }
+    })
+    .then(apiResponse => {
+      if (apiResponse.data.results !== []) {
         var reviewScore = ""
 
         // if movie has reviews then save them
-       if (Number(apiResponse.data.results[0].vote_average) !== 0) {
-         reviewScore = apiResponse.data.results[0].vote_average
-       } else {
-        reviewScore = "No Reviews Yet"
-       }
-
-       this.setState({
-        movieId : apiResponse.data.results[0].id,
-        movieName : apiResponse.data.results[0].title,
-        movieOverview : apiResponse.data.results[0].overview,
-        movieReleaseDate : apiResponse.data.results[0].release_date,
-        reviewScore : reviewScore,
-       })
-       this.checkIfMovieAnalysed(this.state.movieId)
-
-      })
-     .catch(error => {
-       console.log(error)
-     })
-    }
-
-    // check if the movie has been analysed and stored in the db
-    checkIfMovieAnalysed(movie_id) {
-      axios.get("http://localhost:5000/movieSentiment/findMovieSentiment/" + movie_id)
-      .then(apiResponse => {
-        if (apiResponse.data !== null) {
-
-          // if the movie was analysed less than 14 days ago, then save the sentiment to state
-          if (moment().subtract(14, "days").startOf("day").isBefore(apiResponse.data.date_analysed)) {
-            this.setState({
-              movieFound : true,
-              twitterSentiment : [Number(apiResponse.data.twitter_positive_comments), Number(apiResponse.data.twitter_neutral_comments), Number(apiResponse.data.twitter_negative_comments)],
-              youtubeSentiment : [Number(apiResponse.data.youtube_positive_comments), Number(apiResponse.data.youtube_neutral_comments), Number(apiResponse.data.youtube_negative_comments)],
-              seeOrSkip: apiResponse.data.see_or_skip,
-              dateAnalysed: apiResponse.data.date_analysed
-            })
-
-            // callback to compare movies component if its being displayed on the compare page
-            if (this.state.component_location === "compare") {
-              this.props.handler(this.state.movieId, this.state.twitterSentiment, this.state.youtubeSentiment)
-            }
-          } else {
-            // if movie has not been analysed, find sentiment
-            this.findMovieSentiment(true)
-          }
+        if (Number(apiResponse.data.results[0].vote_average) !== 0) {
+          reviewScore = apiResponse.data.results[0].vote_average
         } else {
-          this.findMovieSentiment(false)
+          reviewScore = "No Reviews Yet"
         }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
 
-    // find the movie sentiment on youtube and twitter
-    findMovieSentiment(isUpdate) {
-      const api_url = "http://127.0.0.1:5000/see-or-skip/get_sentiment"
-      const data = JSON.stringify({
-        movie_name : this.state.movieName
-      })
-
-      // make a post request to the sentiment analysis api with the movie name
-      axios.post(api_url, data ,{
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })  
-      .then(apiResponse => {  
-        // save movie sentiment
         this.setState({
-          twitterSentiment : [Number(apiResponse.data.twitter_positive_comments), Number(apiResponse.data.twitter_neutral_comments), Number(apiResponse.data.twitter_negative_comments)],
-          youtubeSentiment : [Number(apiResponse.data.youtube_positive_comments), Number(apiResponse.data.youtube_neutral_comments), Number(apiResponse.data.youtube_negative_comments)],
-          dateAnalysed : new Date()
+          movieFound : true,
+          movieId : apiResponse.data.results[0].id,
+          movieName : apiResponse.data.results[0].title,
+          movieOverview : apiResponse.data.results[0].overview,
+          movieReleaseDate : apiResponse.data.results[0].release_date,
+          reviewScore : reviewScore,
         })
 
-        // if the component is being displayed on the compare page, call back to the parent component
-        if (this.state.component_location === "compare") {
-          this.props.handler(this.state.movieId, this.state.twitterSentiment, this.state.youtubeSentiment)        
-        }
+        this.checkIfMovieAnalysed(this.state.movieId)
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
-        // calculate see or skip
-        const totalPositive = Number(this.state.twitterSentiment[0]) + Number(this.state.youtubeSentiment[0])
-        const totalNegative = Number(this.state.twitterSentiment[2]) + Number(this.state.youtubeSentiment[2])
+  // check if the movie has been analysed and stored in the db
+  checkIfMovieAnalysed(movie_id) {
+    axios.get("http://localhost:5000/movieSentiment/findMovieSentiment/" + movie_id)
+    .then(apiResponse => {
+      if (apiResponse.data !== null) {
 
-        if (totalPositive > totalNegative) {
+        // if the movie was analysed less than 14 days ago, then save the sentiment to state
+        if (moment().subtract(14, "days").startOf("day").isBefore(apiResponse.data.date_analysed)) {
           this.setState({
-            seeOrSkip : "See!"
+            movieFound : true,
+            twitterSentiment : [Number(apiResponse.data.twitter_positive_comments), Number(apiResponse.data.twitter_neutral_comments), Number(apiResponse.data.twitter_negative_comments)],
+            youtubeSentiment : [Number(apiResponse.data.youtube_positive_comments), Number(apiResponse.data.youtube_neutral_comments), Number(apiResponse.data.youtube_negative_comments)],
+            seeOrSkip: apiResponse.data.see_or_skip,
+            dateAnalysed: apiResponse.data.date_analysed
           })
+
+          // callback to compare movies component if its being displayed on the compare page
+          if (this.state.component_location === "compare") {
+            this.props.handler(this.state.movieId, this.state.twitterSentiment, this.state.youtubeSentiment)
+          }
         } else {
-          this.setState({
-            seeOrSkip : "Skip!"
-          })
+          // if movie has not been analysed, find sentiment
+          this.findMovieSentiment(true)
         }
+      } else {
+        this.findMovieSentiment(false)
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
-        // save / update movie sentiment
-        if (isUpdate) {
-          this.updateMovieSentiment()
-        } else {  
-          this.addMovieSentimentToDatabase()
-        }
+  // find the movie sentiment on youtube and twitter
+  findMovieSentiment(isUpdate) {
+    const api_url = "http://127.0.0.1:5000/see-or-skip/get_sentiment"
+    const data = JSON.stringify({
+      movie_name : this.state.movieName
+    })
 
-      })
-      .catch(error => {
-        console.log(error.response)
-      })
-    }
-
-    // add a new movie sentiment to the database
-    addMovieSentimentToDatabase() {
-      // make a post request to the backend server with movie details
-      const api_url = "http://localhost:5000/movieSentiment/saveMovieSentiment"
-      const data = JSON.stringify({
-        movie_id : this.state.movieId,
-        movie_name : this.state.movieName,
-        release_date : this.state.movieReleaseDate,
-        twitter_positive_comments : this.state.twitterSentiment[0],
-        twitter_negative_comments : this.state.twitterSentiment[2],
-        twitter_neutral_comments : this.state.twitterSentiment[1],
-        youtube_positive_comments : this.state.youtubeSentiment[0],
-        youtube_negative_comments : this.state.youtubeSentiment[2],
-        youtube_neutral_comments : this.state.youtubeSentiment[1],
-        see_or_skip : this.state.seeOrSkip,
-        date_analysed : this.state.dateAnalysed
-      })
-      axios.post(api_url, data ,{
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })  
-      .then(apiResponse => console.log(apiResponse))
-      .catch(error => {
-        console.log(error.response)
-      })
-    }
-
-    // update movie sentiment in db
-    updateMovieSentiment() {
-      const api_url = "http://localhost:5000/movieSentiment/updateMovieSentiment"
-      const data = JSON.stringify({
-        movie_id : this.state.movieId,
-        movie_name : this.state.movieName,
-        release_date : this.state.movieReleaseDate,
-        twitter_positive_comments : this.state.twitterSentiment[0],
-        twitter_negative_comments : this.state.twitterSentiment[2],
-        twitter_neutral_comments : this.state.twitterSentiment[1],
-        youtube_positive_comments : this.state.youtubeSentiment[0],
-        youtube_negative_comments : this.state.youtubeSentiment[2],
-        youtube_neutral_comments : this.state.youtubeSentiment[1],
-        see_or_skip : this.state.seeOrSkip,
-        date_analysed : this.state.dateAnalysed
+    // make a post request to the sentiment analysis api with the movie name
+    axios.post(api_url, data ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })  
+    .then(apiResponse => {  
+      // save movie sentiment
+      this.setState({
+        twitterSentiment : [Number(apiResponse.data.twitter_positive_comments), Number(apiResponse.data.twitter_neutral_comments), Number(apiResponse.data.twitter_negative_comments)],
+        youtubeSentiment : [Number(apiResponse.data.youtube_positive_comments), Number(apiResponse.data.youtube_neutral_comments), Number(apiResponse.data.youtube_negative_comments)],
+        dateAnalysed : new Date()
       })
 
-      // make post request to backend server to update the movie sentiment
-      axios.post(api_url, data ,{
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })  
-      .then(apiResponse => console.log(apiResponse))
-      .catch(error => {
-        console.log(error.response)
-      })
-    }
+      // if the component is being displayed on the compare page, call back to the parent component
+      if (this.state.component_location === "compare") {
+        this.props.handler(this.state.movieId, this.state.twitterSentiment, this.state.youtubeSentiment)        
+      }
 
-    // when the component mounts, get the movie sentiment
-    componentDidMount() {
-      this.getMovieInformation(this.state.movieName)
-    }
+      // calculate see or skip
+      const totalPositive = Number(this.state.twitterSentiment[0]) + Number(this.state.youtubeSentiment[0])
+      const totalNegative = Number(this.state.twitterSentiment[2]) + Number(this.state.youtubeSentiment[2])
 
-   render() {
+      if (totalPositive > totalNegative) {
+        this.setState({
+          seeOrSkip : "See!"
+        })
+      } else {
+        this.setState({
+          seeOrSkip : "Skip!"
+        })
+      }
+
+      // save / update movie sentiment
+      if (isUpdate) {
+        this.updateMovieSentiment()
+      } else {  
+        this.addMovieSentimentToDatabase()
+      }
+
+    })
+    .catch(error => {
+      console.log(error.response)
+    })
+  }
+
+  // add a new movie sentiment to the database
+  addMovieSentimentToDatabase() {
+    // make a post request to the backend server with movie details
+    const api_url = "http://localhost:5000/movieSentiment/saveMovieSentiment"
+    const data = JSON.stringify({
+      movie_id : this.state.movieId,
+      movie_name : this.state.movieName,
+      release_date : this.state.movieReleaseDate,
+      twitter_positive_comments : this.state.twitterSentiment[0],
+      twitter_negative_comments : this.state.twitterSentiment[2],
+      twitter_neutral_comments : this.state.twitterSentiment[1],
+      youtube_positive_comments : this.state.youtubeSentiment[0],
+      youtube_negative_comments : this.state.youtubeSentiment[2],
+      youtube_neutral_comments : this.state.youtubeSentiment[1],
+      see_or_skip : this.state.seeOrSkip,
+      date_analysed : this.state.dateAnalysed
+    })
+    axios.post(api_url, data ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })  
+    .then(apiResponse => console.log(apiResponse))
+    .catch(error => {
+      console.log(error.response)
+    })
+  }
+
+  // update movie sentiment in db
+  updateMovieSentiment() {
+    const api_url = "http://localhost:5000/movieSentiment/updateMovieSentiment"
+    const data = JSON.stringify({
+      movie_id : this.state.movieId,
+      movie_name : this.state.movieName,
+      release_date : this.state.movieReleaseDate,
+      twitter_positive_comments : this.state.twitterSentiment[0],
+      twitter_negative_comments : this.state.twitterSentiment[2],
+      twitter_neutral_comments : this.state.twitterSentiment[1],
+      youtube_positive_comments : this.state.youtubeSentiment[0],
+      youtube_negative_comments : this.state.youtubeSentiment[2],
+      youtube_neutral_comments : this.state.youtubeSentiment[1],
+      see_or_skip : this.state.seeOrSkip,
+      date_analysed : this.state.dateAnalysed
+    })
+
+    // make post request to backend server to update the movie sentiment
+    axios.post(api_url, data ,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })  
+    .then(apiResponse => console.log(apiResponse))
+    .catch(error => {
+      console.log(error.response)
+    })
+  }
+
+  // when the component mounts, get the movie sentiment
+  componentDidMount() {
+    this.getMovieInformation(this.state.movieName)
+  }
+
+  render() {
     // if component is being displayed on the find sentiment page, display these objects
-    if (this.state.component_location === "find") {
+    if (this.state.component_location === "find" && this.state.movieFound === true) {
       return (
         <div>
           <div className="findSentimentResults">
@@ -243,7 +247,7 @@ class MovieDetails extends React.Component {
           </div>
        </div>
      )
-    } else {
+    } else if (this.state.component_location === "compare" && this.state.movieFound === true) {
       // if component is being displayed on the compare page, display these components 
       return (
         <div>
@@ -262,8 +266,12 @@ class MovieDetails extends React.Component {
             </div>
         </div>
       )
+    } else {
+      return (
+        <h3>Movie Not Found</h3>
+      )
     }
-   }
+  }
 }
 
 export default MovieDetails;

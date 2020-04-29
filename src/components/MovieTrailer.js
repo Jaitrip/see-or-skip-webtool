@@ -30,11 +30,6 @@ class MovieTrailer extends React.Component {
         }
     }
 
-    // load the trailer paused
-    onReady(event) {
-        event.target.pauseVideo()
-    }
-
     // save any changes to the movie name to state
     componentDidUpdate(prevProps) {
         if (this.props !== prevProps) {
@@ -48,6 +43,16 @@ class MovieTrailer extends React.Component {
     // when the component mounts, get the movie id
     componentDidMount() {
         this.getVideoID();
+    }
+
+    // SOURCE : https://github.com/tjallingt/react-youtube
+    // FUNCTION : Play a youtube video
+    // STATUS : changed parameters
+    // BEGIN
+
+    // load the trailer paused
+    onReady(event) {
+        event.target.pauseVideo()
     }
 
     render() {
@@ -75,6 +80,8 @@ class MovieTrailer extends React.Component {
             )
         }
     }
+
+    // END 
 }
 
 export default MovieTrailer

@@ -1,6 +1,6 @@
 import React from 'react'
 import CompareMovieVisualisation from './CompareMovieVisualisation'
-import MovieTrailer from '../findSentimentPageComponents/MovieTrailer'
+import MovieTrailer from '../MovieTrailer'
 import "../../styles/CompareMovieResultsStyles.css"
 import MovieDetails from '../MovieDetails'
 

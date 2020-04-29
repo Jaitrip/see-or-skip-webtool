@@ -1,3 +1,8 @@
+// SOURCE : https://www.youtube.com/watch?v=7CqJlxBYj-M
+// FUNCTION : Initalise Dependencies and setup the app
+// STATUS : Changed parameters and modified the endpoint routes
+// BEGIN
+
 // Initialise dependencies
 const express = require('express');
 const cors = require('cors');
@@ -32,3 +37,5 @@ app.use('/movieSentiment', movieSentimentRouter);
 app.listen(port, () => {
     console.log("Server running");
 });
+
+// END

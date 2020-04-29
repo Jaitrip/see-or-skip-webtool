@@ -1,8 +1,13 @@
+// SOURCE : https://www.youtube.com/watch?v=7CqJlxBYj-M
+// FUNCTION : Creating routes that can be accessed to perform a database operation
+// STATUS : Heavily modified to fit my project
+// BEGIN
+
 // get schema and initalise router
 const movieSentimentRouter = require('express').Router();
 let MovieSentiment = require('../schemas/movie-sentiment-schema');
 
-//endpoint to get a list of all movies in the datavase
+//endpoint to get a list of all movies in the database
 movieSentimentRouter.route('/findMovieSentiment').get((request, result) => {
     MovieSentiment.find()
     .then(movieSentiments => result.json(movieSentiments))
@@ -19,20 +24,20 @@ movieSentimentRouter.route('/findMovieSentiment/:movie_id').get((request, result
 })
 
 // endpoint to delete a particular movie from the database
-movieSentimentRouter.route('/findMovieSentiment/:movie_id').delete((request, result) => {
+movieSentimentRouter.route('/deleteMovieSentiment/:movie_id').delete((request, result) => {
     const delete_movie_id = request.params.movie_id
 
-    MovieSentiment.findOneAndDelete(delete_movie_id)
+    MovieSentiment.findOneAndDelete({"movie_id" : delete_movie_id})
     .then(() => result.json("movie sentiment deleted"))
     .catch(error => result.status(400).json('Error encountered:' + error))
 })
 
 //endpoint to update a movies sentiment
 movieSentimentRouter.route('/updateMovieSentiment').post((request, result) => {
-    const query = {movie_id : request.body.movie_id}
+    const request_movie_id = request.body.movie_id
 
-    MovieSentiment.findOneAndUpdate(query, request.body, {upsert: true})
-    .then(result.send("Record Updated"))
+    MovieSentiment.findOneAndUpdate({movie_id : request_movie_id}, request.body, {upsert: true})
+    .then(result.send("Movie Sentiment Updated"))
     .catch(error => result.status(400).json('Error encountered:' + error))
 })
 
@@ -44,7 +49,7 @@ movieSentimentRouter.route('/saveMovieSentiment').post((request, result) => {
     const twitter_positive_comments = Number(request.body.twitter_positive_comments)
     const twitter_negative_comments = Number(request.body.twitter_negative_comments)
     const twitter_neutral_comments = Number(request.body.twitter_neutral_comments)
-    const youtube_positive_comments = Number(request.body.youtube_positive_comments)
+    const youtube_positive_comments = Number(request.body.youtube_positive_comments)    
     const youtube_negative_comments = Number(request.body.youtube_negative_comments)
     const youtube_neutral_comments = Number(request.body.youtube_neutral_comments)
     const see_or_skip = request.body.see_or_skip
@@ -64,7 +69,11 @@ movieSentimentRouter.route('/saveMovieSentiment').post((request, result) => {
         date_analysed
     });
 
-    newMovieSentiment.save().then(() => result.json('new movie added')).catch(error => result.status(400).json('Error encountered:' + error))
+    newMovieSentiment.save()
+    .then(() => result.json('new movie added'))
+    .catch(error => result.status(400).json('Error encountered:' + error))
 });
 
 module.exports = movieSentimentRouter;
+
+// END

@@ -30,6 +30,11 @@ class CompareMovieSelector extends React.Component {
         this.getAllMovies()
     }
 
+    // SOURCE : https://github.com/moroshko/react-autosuggest
+    // FUNCTION : Create an autosuggest box depending on user input.
+    // STATUS : changed parameters
+    // BEGINS
+
     // filter the list of movies to get suggestions depending on the current user input
     getSuggestions = (movieName) => {
         const input = movieName.toString().trim().toLowerCase();
@@ -76,6 +81,8 @@ class CompareMovieSelector extends React.Component {
             </div>
         )
     }
+
+    // ENDS
 }
 
 export default CompareMovieSelector;

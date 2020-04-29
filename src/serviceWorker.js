@@ -1,3 +1,4 @@
+// THIS CODE WAS AUTO GENERATED WHEN THE REACT APP WAS INITALISED
 // This optional code is used to register a service worker.
 // register() is not called by default.
 

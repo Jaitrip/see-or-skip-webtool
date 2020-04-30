@@ -19,7 +19,7 @@ class HomePageMovies extends React.Component {
 
     // get a list of upcoming movies and get 5 upcoming ones
     getUpcomingMovies() {
-        axios.get("http://localhost:5000/movieSentiment/findMovieSentiment/")
+        axios.get("/movieSentiment/findMovieSentiment/")
         .then(apiResponse => {
             // sort movie array
             const sorted_movies = apiResponse.data.sort(this.sortByDate)

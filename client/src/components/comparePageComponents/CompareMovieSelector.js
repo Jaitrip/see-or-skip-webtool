@@ -14,7 +14,7 @@ class CompareMovieSelector extends React.Component {
 
     // get the list of all movies from the database
     getAllMovies() {
-        axios.get("http://localhost:5000/movieSentiment/findMovieSentiment")
+        axios.get("/movieSentiment/findMovieSentiment")
         .then(apiResponse => {
             this.setState({
                 all_movies : apiResponse.data

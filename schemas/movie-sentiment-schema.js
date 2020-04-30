@@ -1,3 +1,8 @@
+// SOURCE : https://www.youtube.com/watch?v=7CqJlxBYj-M
+// FUNCTION : Setup schema
+// STATUS : Heavily modified to fit my project
+// BEGIN
+
 // initalise mongo schema for data storage
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
@@ -20,3 +25,5 @@ const movieSentimentSchemea = new Schema({
 const MovieSentiment = mongoose.model('Movie Sentiment', movieSentimentSchemea);
 
 module.exports = MovieSentiment;
+
+// END

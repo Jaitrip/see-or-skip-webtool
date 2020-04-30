@@ -66,7 +66,7 @@ class MovieDetails extends React.Component {
 
   // check if the movie has been analysed and stored in the db
   checkIfMovieAnalysed(movie_id) {
-    axios.get("http://localhost:5000/movieSentiment/findMovieSentiment/" + movie_id)
+    axios.get("/movieSentiment/findMovieSentiment/" + movie_id)
     .then(apiResponse => {
       if (apiResponse.data !== null) {
 
@@ -153,7 +153,7 @@ class MovieDetails extends React.Component {
   // add a new movie sentiment to the database
   addMovieSentimentToDatabase() {
     // make a post request to the backend server with movie details
-    const api_url = "http://localhost:5000/movieSentiment/saveMovieSentiment"
+    const api_url = "/movieSentiment/saveMovieSentiment"
     const data = JSON.stringify({
       movie_id : this.state.movieId,
       movie_name : this.state.movieName,
@@ -180,7 +180,7 @@ class MovieDetails extends React.Component {
 
   // update movie sentiment in db
   updateMovieSentiment() {
-    const api_url = "http://localhost:5000/movieSentiment/updateMovieSentiment"
+    const api_url = "/movieSentiment/updateMovieSentiment"
     const data = JSON.stringify({
       movie_id : this.state.movieId,
       movie_name : this.state.movieName,

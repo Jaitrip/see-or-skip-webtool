@@ -99,7 +99,7 @@ class MovieDetails extends React.Component {
 
   // find the movie sentiment on youtube and twitter
   findMovieSentiment(isUpdate) {
-    const api_url = "http://127.0.0.1:5000/see-or-skip/get_sentiment"
+    const api_url = "https://see-or-skip-sentiment-api.herokuapp.com/see-or-skip/get_sentiment"
     const data = JSON.stringify({
       movie_name : this.state.movieName
     })

@@ -15,7 +15,7 @@ class MovieTrailer extends React.Component {
     // get the youtube id for the latest movie trailer
     getVideoID() {
         if (this.state.movieId !== null) {
-            const apiUrl = "http://api.themoviedb.org/3/movie/" + this.state.movieId + "/videos?api_key=146fa0756d99220f8811aceb8a865301"
+            const apiUrl = "https://api.themoviedb.org/3/movie/" + this.state.movieId + "/videos?api_key=146fa0756d99220f8811aceb8a865301"
 
             axios.get(apiUrl)
             .then(apiResponse => {
@@ -23,6 +23,7 @@ class MovieTrailer extends React.Component {
                     // get latest trailer added to the list of trailers
                     videoId : apiResponse.data.results[apiResponse.data.results.length - 1].key
                 })
+                console.log(this.state.videoId)
             })
             .catch(error => {
                 console.log(error)
